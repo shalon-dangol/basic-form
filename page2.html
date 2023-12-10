@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Page 2</title>
+  </head>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+    }
+    .form-container {
+      height: 60%;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      row-gap: 40px;
+    }
+    input {
+      border: none;
+      border-bottom: 1px solid rgb(150, 150, 150);
+    }
+    input:focus {
+      outline: none;
+    }
+    .form {
+      display: flex;
+      width: 80%;
+      height: 80%;
+      flex-direction: column;
+      row-gap: 10px;
+      align-items: space-around;
+    }
+    .btn {
+      background-color: rgba(87, 140, 187, 0.692);
+      width: 50px;
+      padding: 8px;
+      margin: 40px 0 0 0;
+      font-size: large;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .btn-layout {
+      display: flex;
+      width: 80%;
+      justify-content: space-between;
+    }
+    img {
+      height: 70%;
+      width: 80%;
+      padding: 3px 0 0 0;
+    }
+    .confirm-btn {
+      background-color: rgba(87, 140, 187, 0.692);
+      width: 100px;
+      height: 40px;
+      margin: 40px 0 0 0;
+      font-size: large;
+      font-weight: bold;
+      border: none;
+      border-radius: 6%;
+      cursor: pointer;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <h1>Fill up the form</h1>
+      <form id="page2Form" class="form-container">
+        <div class="form">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required />
+        </div>
+        <div class="form">
+          <label for="hobbies">Hobbies:</label>
+          <input
+            class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+            type="text"
+            id="hobbies"
+            name="hobbies"
+            required
+          />
+        </div>
+        <div class="form">
+          <label for="dob">Date of Birth:</label>
+          <input type="date" id="dob" name="dob" required />
+        </div>
+        <div class="form">
+          <label for="aboutYourself">Tell about yourself:</label>
+          <textarea
+            id="aboutYourself"
+            name="aboutYourself"
+            rows="4"
+            cols="50"
+            required
+          ></textarea>
+        </div>
+        <div class="form">
+          <label>Operating System:</label>
+          <div>
+            <input type="checkbox" id="windows" name="os" value="Windows" />
+            <label for="windows">Windows</label>
+
+            <input type="checkbox" id="mac" name="os" value="Mac" />
+            <label for="mac">Mac</label>
+
+            <input type="checkbox" id="linux" name="os" value="Linux" />
+            <label for="linux">Linux</label>
+
+            <input type="checkbox" id="otherOs" name="os" value="Other" />
+            <label for="otherOs">Other</label>
+          </div>
+        </div>
+        <div class="btn-layout">
+          <button class="btn" type="button" onclick="goBack()">
+            <img src="left-arrow.png" alt="" srcset="" />
+          </button>
+          <button class="confirm-btn" type="button" onclick="validateAndSave()">
+            Confirm
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      function validateAndSave() {
+        const email = document.getElementById("email").value;
+        const hobbies = document.getElementById("hobbies").value;
+        const dob = document.getElementById("dob").value;
+        const aboutYourself = document.getElementById("aboutYourself").value;
+        const osCheckboxes = document.querySelectorAll(
+          'input[name="os"]:checked'
+        );
+
+        // Validate email using a simple regex pattern
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+          alert("Please enter a valid email address.");
+          return;
+        }
+
+        if (!hobbies) {
+          alert("Please enter your hobbies.");
+          return;
+        }
+
+        // Validate date of birth
+        const currentDate = new Date().toISOString().split("T")[0];
+        if (dob > currentDate || !dob) {
+          alert("Please enter a valid date of birth.");
+          return;
+        }
+
+        // Validate "Tell about yourself" field is not empty
+        if (aboutYourself.trim() === "") {
+          alert("Please tell us about yourself.");
+          return;
+        }
+
+        // Validate at least one operating system is selected
+        if (osCheckboxes.length === 0) {
+          alert("Please select at least one operating system.");
+          return;
+        }
+
+        // If all validations pass, save data to localStorage and navigate to the next page
+        const formData = {
+          email: email,
+          hobbies: hobbies,
+          dob: dob,
+          aboutYourself: aboutYourself,
+          os: getSelectedCheckboxes("os"),
+        };
+        localStorage.setItem("page2Email", formData.email);
+        localStorage.setItem("page2Hobbies", formData.hobbies);
+        localStorage.setItem("page2Dob", formData.dob);
+        localStorage.setItem("page2AboutYourself", formData.aboutYourself);
+        localStorage.setItem("page2Os", formData.os);
+
+        window.location.href = "result.html";
+      }
+
+      function goBack() {
+        window.location.href = "page1.html";
+      }
+
+      function getSelectedCheckboxes(name) {
+        const checkboxes = document.querySelectorAll(
+          `input[name="${name}"]:checked`
+        );
+        const values = Array.from(checkboxes).map((checkbox) => checkbox.value);
+        return values.join(", ");
+      }
+    </script>
+  </body>
+</html>

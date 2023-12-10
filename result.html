@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Result</title>
+  </head>
+  <style>
+    .data {
+      display: flex;
+      font-size: large;
+      padding: 10px;
+      background-color: aliceblue;
+      width: 20%;
+      margin: 0 0 0 40%;
+    }
+  </style>
+  <body>
+    <h2 style="margin-left: 40%">Your Information:</h2>
+    <div id="page1Data" class="data"></div>
+    <div id="page2Data" class="data"></div>
+
+    <script>
+      const page1Data = {
+        name: localStorage.getItem("page1Name"),
+        address: localStorage.getItem("page1Address"),
+        phone: localStorage.getItem("page1Phone"),
+        gender: localStorage.getItem("page1Gender"),
+      };
+
+      const page2Data = {
+        email: localStorage.getItem("page2Email"),
+        hobbies: localStorage.getItem("page2Hobbies"),
+        dob: localStorage.getItem("page2Dob"),
+        aboutYourself: localStorage.getItem("page2AboutYourself"),
+        os: localStorage.getItem("page2Os"),
+      };
+
+      document.getElementById("page1Data").innerHTML = `
+            Name: ${page1Data.name}<br>
+            Address: ${page1Data.address}<br>
+            Phone: ${page1Data.phone}<br>
+            Gender: ${page1Data.gender}
+        `;
+
+      document.getElementById("page2Data").innerHTML = `
+            Email: ${page2Data.email}<br>
+            Hobbies: ${page2Data.hobbies}<br>
+            Date of Birth: ${page2Data.dob}<br>
+            Tell about yourself: ${page2Data.aboutYourself}<br>
+            Operating System: ${page2Data.os}
+        `;
+    </script>
+  </body>
+</html>

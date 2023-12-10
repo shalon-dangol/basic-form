@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Fill up the form</title>
+  </head>
+  <style>
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+    }
+    .form-container {
+      height: 60%;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      row-gap: 40px;
+    }
+    input {
+      border: none;
+      border-bottom: 1px solid rgb(150, 150, 150);
+    }
+    input:focus {
+      outline: none;
+    }
+    .form {
+      display: flex;
+      width: 80%;
+      height: 80%;
+      flex-direction: column;
+      row-gap: 10px;
+      align-items: space-around;
+    }
+    .btn {
+      background-color: rgba(87, 140, 187, 0.692);
+      width: 50px;
+      padding: 8px;
+      margin: 70px 0 0 600px;
+      font-size: large;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    img {
+      height: 40%;
+      width: 80%;
+      padding: 3px 0 0 0;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <h1>Fill up the form</h1>
+      <form id="page1Form" class="form-container">
+        <div class="form">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required />
+        </div>
+        <div class="form">
+          <label for="address">Address</label>
+          <input type="text" id="address" name="address" required />
+        </div>
+        <div class="form">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" name="phone" required />
+        </div>
+        <div class="form">
+          <label>Gender</label>
+          <div>
+            <input type="radio" id="male" name="gender" value="male" required />
+            <label for="male">Male</label>
+
+            <input
+              type="radio"
+              id="female"
+              name="gender"
+              value="female"
+              required
+            />
+            <label for="female">Female</label>
+
+            <input
+              type="radio"
+              id="other"
+              name="gender"
+              value="other"
+              required
+            />
+            <label for="other">Other</label>
+          </div>
+        </div>
+        <div>
+          <button class="btn" type="button" onclick="validateAndNavigate()">
+            <img src="right-arrow.png" alt="" srcset="" />
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      function validateAndNavigate() {
+        const nameRegex = /^[a-zA-Z\s]+$/;
+        const phoneRegex = /^\d{10}$/;
+
+        const name = document.getElementById("name").value;
+        const address = document.getElementById("address").value;
+        const phone = document.getElementById("phone").value;
+        const gender = document.querySelector('input[name="gender"]:checked');
+
+        if (!nameRegex.test(name)) {
+          alert("Please enter a valid name.");
+          return;
+        }
+
+        if (!address) {
+          alert("Please enter address.");
+          return;
+        }
+
+        if (!phoneRegex.test(phone)) {
+          alert("Please enter a valid 10-digit phone number.");
+          return;
+        }
+
+        if (!name || !address || !gender) {
+          alert("Please fill in all the inputs.");
+          return;
+        }
+
+        const formData = {
+          name,
+          address,
+          phone,
+          gender: gender.value,
+        };
+
+        localStorage.setItem("page1Data", JSON.stringify(formData));
+        window.location.href = "page2.html";
+      }
+    </script>
+  </body>
+</html>
